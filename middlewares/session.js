@@ -21,17 +21,30 @@ export function checkIsAdminOrNot(req,res,next){
 
     console.log(req.session);
     
+    try {
+        
+        if(req.session.data.role === 'admin'){
+          next()
+        }
+        else{
+    
+            res.status(404)
+            .json({
+                message:'not fount the page'
+            })
+        }
 
-    if(req.session.data.role === 'admin'){
-      next()
-    }
-    else{
+    } catch (error) {
 
         res.status(404)
-        .json({
-            message:'not fount the page'
+        res.json({
+            message:'page not fount'
         })
+       
+        // console.log(error);
+        
     }
+
 
 
   

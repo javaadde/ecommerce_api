@@ -24,3 +24,9 @@ export async function deleteOrder(order_id) {
     const dlt =  await orders.deleteOne({_id:order_id});
     return dlt
 }
+
+
+export async function findManyOrders() {
+    const data = await orders.find()
+    return data
+}

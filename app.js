@@ -30,8 +30,10 @@ import { productsRouter } from './routes/products.js';
 import { adminRouter } from './routes/admin.js';
 import { cartRouter } from './routes/cart.js';
 import { ordersRouter } from './routes/orders.js';
+import { detailsRouter } from './routes/details.js';
 
 
+app.use('/details',detailsRouter)
 app.use('/order',ordersRouter);
 app.use('/cart',cartRouter);
 app.use('/admin',adminRouter);
@@ -40,6 +42,12 @@ app.use('/signin',signInRouter);
 app.use('/signup',signUpRouter);
 
 
+app.use((req,res) => {
+    res.status(404)
+    res.json({
+        message:'page not fount'
+    })
+})
 
 //  connect to database
 import { dbConnect } from './db/db.js'

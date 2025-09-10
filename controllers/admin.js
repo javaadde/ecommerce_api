@@ -1,4 +1,4 @@
-import { deleteOrder, updateOrder } from "../services/order.js";
+import { deleteOrder, findManyOrders, updateOrder } from "../services/order.js";
 import { addProduct, deleteProduct, updateProduct } from "../services/products.js";
 import { findManyUsers } from "../services/users.js";
 
@@ -77,4 +77,13 @@ export async function DeleteAnOrder(req,res) {
             console.log(err);
             
         }
+}
+
+
+export async function GetAllOrders(req,res) {
+    const orders = await findManyOrders()
+
+    res.json({
+        data:orders,
+    })
 }

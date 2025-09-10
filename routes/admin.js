@@ -1,4 +1,13 @@
-import express, { urlencoded } from 'express'
+import express from 'express'
+
+
+// Validation
+import { valResult, valRulesForProducts } from '../middlewares/validation.js';
+
+// Controllers
+import { AllUsersForAdmin, DeleteAnOrder, DeletingProduct, GetAllOrders, PorductAdding, UpdateAnOrder, UpdatingProduct } from '../controllers/admin.js';
+import { checkIsAdminOrNot } from '../middlewares/session.js';
+
 export const adminRouter = express.Router()
 
 // json converting
@@ -7,15 +16,6 @@ adminRouter.use(express.urlencoded({extended:true}))
 
 //  MIDDLEWARE
 adminRouter.use(checkIsAdminOrNot);
-
-
-// Validation
-import { valResult, valRulesForProducts } from '../middlewares/validation.js';
-
-// Controllers
-import { AllUsersForAdmin, DeleteAnOrder, DeletingProduct, PorductAdding, UpdateAnOrder, UpdatingProduct } from '../controllers/admin.js';
-import { checkIsAdminOrNot } from '../middlewares/session.js';
-
 
 
 // =================
@@ -41,8 +41,10 @@ adminRouter.get('/users',AllUsersForAdmin);
 
 
 // =================
-//  CRUD ORDERS
+//  CRUD ORDERS AND GETS
 // =================
+
+adminRouter.get('/orders' , GetAllOrders);
 
 adminRouter.put('/order/update/:id',UpdateAnOrder);
 adminRouter.delete('/order/delete/:id',DeleteAnOrder);
