@@ -6,6 +6,6 @@ const proSchema = mongoose.Schema({
     price:Number,
     category:String,
     url:String,
-})
+},{ timestamp: true })
 
 export const products = mongoose.model('products',proSchema)

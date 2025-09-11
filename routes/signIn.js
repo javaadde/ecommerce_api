@@ -24,7 +24,7 @@ signInRouter.use(session({
 import { valResult, valRulesForSignIn } from '../middlewares/validation.js';
 
 // Controller
-import { signIn } from '../controllers/signIn.js';
+import { signInForUser } from '../controllers/signIn.js';
 
 // Route
-signInRouter.post('/',valRulesForSignIn, valResult , signIn)
+signInRouter.post('/',valRulesForSignIn, valResult , signInForUser)

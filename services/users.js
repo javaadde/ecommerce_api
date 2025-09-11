@@ -54,3 +54,26 @@ export async function findOneUser(user_id) {
     const user = await users.findOne({_id:user_id})
     return user
 }
+
+
+export async function disableUser(user_id) {
+    const dsbl = await users.updateOne(
+        {_id:user_id} ,
+        {$set:{
+            active:false
+        }}
+    )
+
+    return dsbl
+}
+
+export async function enableUser(user_id) {
+    const enbl = await users.updateOne(
+        {_id:user_id} ,
+        {$set:{
+            active:true
+        }}
+    )
+
+    return enbl
+}

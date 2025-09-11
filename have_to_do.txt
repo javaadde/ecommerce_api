@@ -1,3 +1,5 @@
-create cokie without session
-reorder the import and export
-user active inactive
+create cokie without session  
+reorder the import and export || **
+user active inactive  || **
+edit .env in first commit  
+delete session data  || **

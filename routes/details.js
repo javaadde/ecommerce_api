@@ -1,8 +1,11 @@
 import express from 'express'
-export const detailsRouter = express.Router();
 import { DetailsOfUser, Logout } from '../controllers/details.js';
+import { checkSessionData } from '../middlewares/session.js';
 
+//===================================================================== 
+
+export const detailsRouter = express.Router();
 
 detailsRouter.get('/', DetailsOfUser)
 
-detailsRouter.delete('/logout',Logout)
+detailsRouter.delete('/logout', checkSessionData ,Logout)

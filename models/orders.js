@@ -7,6 +7,6 @@ const orderSchema =  mongoose.Schema({
       status:{type:String, default:'Placed'},
       date:{type:Date, default:Date.now},
       address:Object,
-  })
+  },{ timestamp: true })
 
 export  const orders = mongoose.model('orders',orderSchema);

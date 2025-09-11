@@ -1,7 +1,36 @@
 import { deleteOrder, findManyOrders, updateOrder } from "../services/order.js";
 import { addProduct, deleteProduct, updateProduct } from "../services/products.js";
-import { findManyUsers } from "../services/users.js";
+import { checkPassword, disableUser, enableUser, findManyUsers, findOneUser } from "../services/users.js";
 
+
+
+export async function singnInForAdmin(req,res) {
+        const doc = req.body;
+    
+        const passwordCurrect = await checkPassword(doc)
+        const data = await findOneUser(doc.username)
+    
+        if(passwordCurrect && data.role === 'admin'){
+    
+            // saving data to session
+            req.session.data = {
+            username:data.username,
+            email:data.email,
+            role:data.role,
+            }
+    
+            res.json({
+               message:'your logined success fully'
+            })
+    
+        }
+        else{
+    
+            res.json({
+                message:'please ensure you signed up first'
+            })
+        }
+}
 
 
 export async function PorductAdding(req,res) {
@@ -86,4 +115,48 @@ export async function GetAllOrders(req,res) {
     res.json({
         data:orders,
     })
+}
+
+
+export async function UserDisableOrEnable(req,res) {
+
+    
+    const user_id = req.body.id 
+    const action = req.params.active
+    
+
+    if(action === 'disable'){
+
+        const disabled = await disableUser(user_id);
+
+        if(disabled.modifiedCount === 1){
+         res.json({
+            message:'user disabled'
+         })
+        }
+        else{
+          res.json({
+            message:'user allready disabled'
+          })
+        } 
+    }
+    else if(action === 'enable'){
+        
+        const enabled = await enableUser(user_id);
+
+        if(enabled.modifiedCount === 1){
+         res.json({
+            message:'user enabled'
+         })
+        }
+        else{
+          res.json({
+            message:'user allready enaabled'
+          })
+        } 
+
+    }
+
+
+
 }

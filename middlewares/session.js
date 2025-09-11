@@ -19,7 +19,6 @@ export function checkSessionData(req,res,next){
 
 export function checkIsAdminOrNot(req,res,next){
 
-    console.log(req.session);
     
     try {
         

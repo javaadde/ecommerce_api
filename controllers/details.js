@@ -7,8 +7,16 @@ export async function DetailsOfUser(req,res) {
 
 
 export function Logout(req,res){
-     delete req.session.data
-     res.json({
-        message:'logouted'
-     })
+
+    req.session.destroy((err) => {
+
+    if (err) {
+      console.log(err);
+    } else {
+    //   res.redirect('/login');
+       res.json({
+        message:'you are logedout'
+       })
+    }
+  });
 }
