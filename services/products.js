@@ -1,3 +1,4 @@
+import { category } from "../models/category.js";
 import { products } from "../models/products.js";
 
 
@@ -15,15 +16,24 @@ export async function findCategoryProducts(category) {
 
 export async function addProduct(pro) {
 
-    try{
-        await products.insertOne(pro)
-        return 'inserted successly'
-    }
-    catch(err){
-        if (err.code === 11000) {
-            return 'the product_id is allready exists'
+    const findedCatId = await category.findOne({_id:pro.category_id})  || null    
+
+    if(findedCatId != null){
+        
+        try{
+
+            await products.insertOne(pro)
+            return 'inserted successly'
         }
-        console.log(err);
+        catch(err){
+            if (err.code === 11000) {
+                return 'the product_id is allready exists'
+            }
+            console.log(err);
+        }
+
+    }else{
+       return 'category id doesnt exist'
     }
 
 }
@@ -67,4 +77,12 @@ export async function updateProduct(product) {
         console.log(err);
     }
     
+}
+
+
+export async function deleteManyProductsByCategory(category_id) {
+    console.log(typeof category_id);
+    
+    const dlt = await products.deleteMany( {category_id:category_id} );
+    return dlt
 }

@@ -27,6 +27,7 @@ export const valRulesForSignIn = [
 ]
 
 export const valRulesForProducts = [
+
       body('_id')
      .notEmpty().withMessage('pleae enter The product_id Name'),
 
@@ -36,7 +37,7 @@ export const valRulesForProducts = [
       body('price')
      .notEmpty().withMessage('pleae enter The price'),
 
-      body('category')
+      body('category_id')
      .notEmpty().withMessage('pleae enter The category'),
 
       body('url')

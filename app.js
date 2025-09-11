@@ -1,18 +1,28 @@
 import express from 'express'
-const app = express()
+import { dbConnect } from './db/db.js'
+import MongoStore from 'connect-mongo' // mongo-connect
+import dotenv from 'dotenv' // env configure
+import session from 'express-session'// session
 
-// mongo-connect
-import MongoStore from 'connect-mongo'
+// routers
+import {signUpRouter} from './routes/signUp.js';
+import {signInRouter} from './routes/signIn.js';
+import { productsRouter } from './routes/products.js';
+import { adminRouter } from './routes/admin.js';
+import { cartRouter } from './routes/cart.js';
+import { ordersRouter } from './routes/orders.js';
+import { detailsRouter } from './routes/details.js';
+import { categoryRouter } from './routes/category.js'
 
-// env configure
-import dotenv from 'dotenv'
+
 dotenv.config()
-
 const PORT = process.env.PORT;
 const dbURI = process.env.dbURI;
 
-// session
-import session from 'express-session'
+const app = express()
+
+
+
 app.use(session({
      
     secret: 'your_secret_key',
@@ -23,16 +33,7 @@ app.use(session({
 }))
 
 
-// routers
-import {signUpRouter} from './routes/signUp.js';
-import {signInRouter} from './routes/signIn.js';
-import { productsRouter } from './routes/products.js';
-import { adminRouter } from './routes/admin.js';
-import { cartRouter } from './routes/cart.js';
-import { ordersRouter } from './routes/orders.js';
-import { detailsRouter } from './routes/details.js';
-
-
+app.use('/category', categoryRouter)
 app.use('/details',detailsRouter)
 app.use('/order',ordersRouter);
 app.use('/cart',cartRouter);
@@ -49,9 +50,8 @@ app.use((req,res) => {
     })
 })
 
-//  connect to database
-import { dbConnect } from './db/db.js'
-dbConnect();
+
+dbConnect();  //  connect to database
 
 
 // server

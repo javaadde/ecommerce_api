@@ -1,14 +1,13 @@
 import express from 'express'
+import { valResult, valRulesForSignIn } from '../middlewares/validation.js';  // login handling
+import { signInForUser } from '../controllers/signIn.js';  // Controller
+import session from 'express-session';  // session data
+import MongoStore from 'connect-mongo';
+
+// ==============================================================
 export const signInRouter = express.Router();
 
 
-// json and url endcoded
-signInRouter.use(express.json());
-signInRouter.use(express.urlencoded({extended:true}))
-
-// session data
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
 signInRouter.use(session({
     
     secret: 'your_secret_key',
@@ -19,12 +18,9 @@ signInRouter.use(session({
 }))
 
 
-
-// login handling
-import { valResult, valRulesForSignIn } from '../middlewares/validation.js';
-
-// Controller
-import { signInForUser } from '../controllers/signIn.js';
+// json and url endcoded
+signInRouter.use(express.json());
+signInRouter.use(express.urlencoded({extended:true}))
 
 // Route
 signInRouter.post('/',valRulesForSignIn, valResult , signInForUser)

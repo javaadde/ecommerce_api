@@ -6,6 +6,6 @@ import { checkSessionData } from '../middlewares/session.js';
 
 export const detailsRouter = express.Router();
 
-detailsRouter.get('/', DetailsOfUser)
+detailsRouter.get('/', checkSessionData ,DetailsOfUser)
 
 detailsRouter.delete('/logout', checkSessionData ,Logout)

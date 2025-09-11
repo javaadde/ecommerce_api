@@ -1,9 +1,15 @@
 import { clearCart, findOneCart } from "../services/cart.js";
-import { storeUserData } from "../services/order.js";
+import { findManyOrdersOfAnUser, storeUserData } from "../services/order.js";
 
 export async function PlacingAnOrder(req,res) {
 
    try{
+
+     if(req.session.data.role === 'admin'){
+      return res.json({
+          message:'you are admin you cant order anything'
+       })
+    }
 
    const subtotal =  req.body.total
    const address =  req.body.address
@@ -12,7 +18,7 @@ export async function PlacingAnOrder(req,res) {
    // finding the user's cart taking the subtotal and items
    const cartData = await findOneCart(user_id)
 
-   if(cartData.items.length === 0){
+   if(cartData.items.length === 0 ){
         return  res.json({
                     message:'your cart is empty'
                 })  
@@ -37,4 +43,19 @@ export async function PlacingAnOrder(req,res) {
     console.error(err);
   }
    
+}
+
+
+export async function GetUserOrders(req,res) {
+    try {
+
+      const user_id = req.session.data.username
+      const data = await findManyOrdersOfAnUser(user_id);
+      
+      res.json(data)
+
+    } 
+    catch (error) {
+      
+    }
 }

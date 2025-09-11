@@ -1,12 +1,18 @@
 import express from 'express';
+import { AddtoCart, cartHome, operationOnItems } from '../controllers/cart.js'; // Controller
+import { checkAcessToCart } from '../middlewares/acess.js';
+
+
+// ================================================================================
+
 export const cartRouter = express.Router();
 
 // json parse
 cartRouter.use(express.json());
 cartRouter.use(express.urlencoded({extended:true}));
 
-// Controller
-import { AddtoCart, cartHome, operationOnItems } from '../controllers/cart.js';
+// MIDDLEWARE
+cartRouter.use(checkAcessToCart)
 
 // home route to see all products and total value in the caryt
 cartRouter.get('/', cartHome);

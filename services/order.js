@@ -30,3 +30,15 @@ export async function findManyOrders() {
     const data = await orders.find()
     return data
 }
+
+export async function findManyOrdersOfAnUser(user_id) {
+    const data = await orders.find({user_id:user_id});
+    return data
+}
+
+
+export async function findManyOrdersByDate(date) {
+    const data = await orders.find({date:{$lte:date}})
+    return data
+}
+

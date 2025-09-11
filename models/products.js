@@ -4,7 +4,7 @@ const proSchema = mongoose.Schema({
     _id:String,
     name:String,
     price:Number,
-    category:String,
+    category_id:String,
     url:String,
 },{ timestamp: true })
 

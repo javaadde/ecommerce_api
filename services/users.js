@@ -36,11 +36,18 @@ export async function insertDoc(form){
 
 export async function checkPassword(doc){
 
-    const user = await users.findOne({_id:doc.username})
-    console.log(user);
-     
-    const currect = await bcrypt.compare(doc.password,user.password)
-    return currect
+    try {
+        const user = await users.findOne({_id:doc.username})
+        console.log(user);
+         
+        const currect = await bcrypt.compare(doc.password,user.password)
+        return currect
+        
+    } catch (error) {
+        
+        console.log(error);
+    }
+    
 }
 
 

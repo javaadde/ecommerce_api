@@ -17,8 +17,16 @@ export async function createCart(user_id){
 
 
 export async function findOneCart(user_id) {
-   const cartData = await cart.findOne({_id:user_id});
-   return cartData
+
+    try {
+            
+        const cartData = await cart.findOne({_id:user_id});
+        return cartData
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
 } 
 
 
@@ -40,7 +48,8 @@ export async function addItemToCart(user_id,product_id) {
         return 'item added to cart'
     }
     else if( updated.modifiedCount === 0){
-        return 'item is allready in the cart'
+        const val = await increaseQuantityOfItem(user_id,product_id);
+        return val
     }
     else{
         return 'error occured from adding the item'
@@ -62,7 +71,7 @@ export async function increaseQuantityOfItem(user_id,product_id) {
          )
 
          if (updated.modifiedCount === 1) {
-            return 'incresed'
+            return 'incresed item quantity'
          }
          else{
             return 'error occured during the icresing'
@@ -78,7 +87,7 @@ export async function decreaseQuantityOfItem(user_id,product_id) {
 
          if (updated.modifiedCount === 1) {
            
-             return 'decresed'
+             return 'decresed item quantity'
          }
          else{
              
