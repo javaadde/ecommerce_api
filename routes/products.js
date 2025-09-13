@@ -1,18 +1,18 @@
-import express from 'express'
-import { productByCategory, productsHome } from '../controllers/products.js'; // ControllerS
+import express from "express";
+import { productByCategory, productsHome } from "../controllers/products.js"; // ControllerS
 
 // ==============================================================
 
 export const productsRouter = express.Router();
 
 // json
-productsRouter.use(express.json())
-productsRouter.use(express.urlencoded({extended:true}))
+productsRouter.use(express.json());
+productsRouter.use(express.urlencoded({ extended: true }));
 
 // Routes =>
 
 // get all products
-productsRouter.get('/', productsHome)
+productsRouter.get("/", productsHome);
 
 // get by category
-productsRouter.get('/:category', productByCategory)
+productsRouter.get("/:category", productByCategory);

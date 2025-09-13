@@ -1,9 +1,12 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const cartSchema = mongoose.Schema({
+const cartSchema = mongoose.Schema(
+  {
     _id: String,
     items: Array,
     subtotal: Number,
-}, { timestamp: true })
+  },
+  { timestamps: true }
+);
 
-export const cart = mongoose.model('cart', cartSchema);
+export const cart = mongoose.model("cart", cartSchema);

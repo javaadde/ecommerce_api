@@ -1,33 +1,27 @@
 // Services
-import { insertDoc } from '../services/users.js';
-import { createCart } from '../services/cart.js';
+import { insertDoc } from "../services/users.js";
+import { createCart } from "../services/cart.js";
 
+export async function signUp(req, res) {
+  try {
+    const data = req.body;
+    const message = await insertDoc(data);
 
-export async function signUp(req,res) {
+    // saving data to session
+    req.session.data = {
+      username: data.username,
+      email: data.email,
+      role: data.role,
+    };
 
-    try{
+    // creating a cart for the user
+    await createCart(data.username);
 
-        const data = req.body; 
-       const message = await insertDoc(data);
-       
-       // saving data to session
-       req.session.data = {
-           username:data.username,
-           email:data.email,
-           role:data.role,
-       }
-    
-       // creating a cart for the user
-       await createCart(data.username)
-    
-       res.json(message)
-    
-       // res.redirect('/home')
+    res.json(message);
 
-    }
-
-    catch(err){
-        console.log(err);
-        
-    }
+    // res.redirect('/home')
+  } catch (err) {
+    console.log(err);
+  }
 }
+

@@ -1,50 +1,32 @@
+export function checkSessionData(req, res, next) {
+  const user = req.session.data;
 
-export function checkSessionData(req,res,next){
+  if (user) {
+    next();
+  } else {
+    res.json({
+      message: "please login first",
+    });
 
-    const user =  req.session.data;
+    // res.redirect('/login')
+  }
+}
 
-    if(user){
-        next()
+export function checkIsAdminOrNot(req, res, next) {
+  try {
+    if (req.session.data.role === "admin") {
+      next();
+    } else {
+      res.status(401).json({
+        message: "Un otherized Page",
+      });
     }
-    else{
-        res.json({
-            message:'please login first'
-        })
+  } catch (error) {
+    res.status(401);
+    res.json({
+      message: "un otherized",
+    });
 
-        // res.redirect('/login')
-    }
-
-} 
-
-
-export function checkIsAdminOrNot(req,res,next){
-
-    
-    try {
-        
-        if(req.session.data.role === 'admin'){
-          next()
-        }
-        else{
-    
-            res.status(404)
-            .json({
-                message:'not fount the page'
-            })
-        }
-
-    } catch (error) {
-
-        res.status(404)
-        res.json({
-            message:'page not fount'
-        })
-       
-        // console.log(error);
-        
-    }
-
-
-
-  
+    // console.log(error);
+  }
 }
