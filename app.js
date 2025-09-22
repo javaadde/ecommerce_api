@@ -3,6 +3,7 @@ import { dbConnect } from "./db/db.js";
 import MongoStore from "connect-mongo"; // mongo-connect
 import dotenv from "dotenv"; // env configure
 import session from "express-session"; // session
+import cors from "cors"
 
 // routers
 import { signUpRouter } from "./routes/signUp.js";
@@ -13,6 +14,7 @@ import { cartRouter } from "./routes/cart.js";
 import { ordersRouter } from "./routes/orders.js";
 import { detailsRouter } from "./routes/details.js";
 import { categoryRouter } from "./routes/category.js";
+import { IsLogined } from "./controllers/app.js";
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -20,14 +22,28 @@ const dbURI = process.env.dbURI;
 
 const app = express();
 
+app.use(cors({
+   origin: "http://localhost:5173", // frontend
+   credentials: true
+}))
+
+
+
 app.use(
   session({
-    secret: "your_secret_key",
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: dbURI }),
+  secret: "mysecret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,   // must be false on localhost (no https)
+    sameSite: "lax" // try "lax" first, then "none" if cross-site
+  },
+   store: MongoStore.create({mongoUrl:dbURI})
   })
 );
+
+app.get('/', IsLogined)
 
 app.use("/category", categoryRouter);
 app.use("/details", detailsRouter);
@@ -44,6 +60,7 @@ app.use((req, res) => {
     message: "page not fount",
   });
 });
+
 
 dbConnect(); //  connect to database
 

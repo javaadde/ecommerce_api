@@ -5,13 +5,19 @@ import session from "express-session"; // session data
 import MongoStore from "connect-mongo";
 
 // ==============================================================
+
 export const signInRouter = express.Router();
 
 signInRouter.use(
   session({
-    secret: "your_secret_key",
-    resave: false,
-    saveUninitialized: false,
+  secret: "mysecret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,   
+    sameSite: "lax" 
+  },
     store: MongoStore.create({ mongoUrl: "mongodb://localhost:27017/MyUsers" }),
   })
 );

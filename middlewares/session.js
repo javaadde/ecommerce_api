@@ -8,7 +8,6 @@ export function checkSessionData(req, res, next) {
       message: "please login first",
     });
 
-    // res.redirect('/login')
   }
 }
 
