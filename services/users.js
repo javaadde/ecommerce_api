@@ -76,3 +76,8 @@ export async function enableUser(user_id) {
 
   return enbl;
 }
+
+export async function isUser(name) {
+  const isAvailable = await users.findOne({ _id: name });
+  return isAvailable;
+}

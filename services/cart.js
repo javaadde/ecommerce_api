@@ -14,6 +14,7 @@ export async function createCart(user_id) {
 export async function findOneCart(user_id) {
   try {
     const cartData = await cart.findOne({ _id: user_id });
+
     return cartData;
   } catch (error) {
     console.log(error);
@@ -39,6 +40,8 @@ export async function addItemToCart(user_id, product_id) {
       }
     );
 
+    console.log(updated);
+
     if (updated.modifiedCount > 0) {
       return "item added to cart";
     } else if (updated.modifiedCount === 0) {
@@ -53,12 +56,15 @@ export async function addItemToCart(user_id, product_id) {
 }
 
 export async function increaseQuantityOfItem(user_id, product_id) {
+
+  
+
   const updated = await cart.updateOne(
     { _id: user_id, "items.product_id": product_id },
     { $inc: { "items.$.quantity": 1 } }
   );
 
-  if (updated.modifiedCount === 1) {
+  if (updated.modifiedCount > 0) {
     return "incresed item quantity";
   } else {
     return "error occured during the icresing";
@@ -71,7 +77,7 @@ export async function decreaseQuantityOfItem(user_id, product_id) {
     { $inc: { "items.$.quantity": -1 } }
   );
 
-  if (updated.modifiedCount === 1) {
+  if (updated.modifiedCount > 0) {
     return "decresed item quantity";
   } else {
     return "error occured during the decreasing";
@@ -84,4 +90,27 @@ export async function clearCart(user_id) {
     { $unset: { items: [] } }
   );
   return updated;
+}
+
+export async function updateTotal(user_id) {
+  const cart = await findOneCart(user_id);
+  const items = cart.items;
+
+  let total_amount = 0;
+  for (const item of items) {
+    total_amount += item.price * item.quantity;
+  }
+  console.log(total_amount);
+
+  const updt = await cart.updateOne({ _id: user_id }, { subtotal: 500 });
+  console.log(updt);
+}
+
+export async function deleteProInCart(user_id, product_id) {
+  const updated = await cart.updateOne(
+    { _id: user_id },
+    { $pull: { items: { product_id: product_id } } }
+  );
+
+  return updated
 }

@@ -185,8 +185,8 @@ export async function GetAllOrdersByDate(req, res) {
 
 export async function CreateCategory(req, res) {
   try {
-    const { name, discription } = req.body;
-    const mess = await insertOneCategoy(name, discription);
+    const { name, discription,url } = req.body;
+    const mess = await insertOneCategoy(name, discription,url);
 
     res.json({
       message: `${mess} named ${name}`,
@@ -207,7 +207,13 @@ export async function DeleteCategory(req, res) {
       res.json({
         message: "deleted sucessly",
       });
-    } else {
+    }
+    else if(deletedCat.deletedCount === 1){
+       res.json({
+          message:"deleted the empty category"
+       })
+    } 
+    else {
       res.json({
         message: "please make sure the category is exists",
       });

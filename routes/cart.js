@@ -1,5 +1,5 @@
 import express from "express";
-import { AddtoCart, cartHome, operationOnItems } from "../controllers/cart.js"; // Controller
+import { AddtoCart, cartHome, deletCartItem, operationOnItems } from "../controllers/cart.js"; // Controller
 import { checkAcessToCart } from "../middlewares/acess.js";
 
 // ================================================================================
@@ -21,3 +21,6 @@ cartRouter.patch("/add/:pro_id", AddtoCart);
 
 // route for increasing and decreasing the quantity of the item
 cartRouter.patch("/quantity/:operation", operationOnItems);
+
+// delete cart item
+cartRouter.delete('/delete/:id', deletCartItem )

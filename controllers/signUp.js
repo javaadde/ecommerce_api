@@ -1,5 +1,5 @@
 // Services
-import { insertDoc } from "../services/users.js";
+import { insertDoc, isUser } from "../services/users.js";
 import { createCart } from "../services/cart.js";
 
 export async function signUp(req, res) {
@@ -17,7 +17,10 @@ export async function signUp(req, res) {
     // creating a cart for the user
     await createCart(data.username);
 
-    res.json(message);
+    res.json({
+      message:message,
+      signedUp:true
+    });
 
     // res.redirect('/home')
   } catch (err) {
@@ -25,3 +28,29 @@ export async function signUp(req, res) {
   }
 }
 
+export async function userExistsOrNot(req,res) {
+  try {
+
+    const name = req.body.name
+    console.log(name);
+    
+    const isAvailable = await isUser(name) 
+
+    if(isAvailable){
+
+      res.json({
+        isAvailable:false
+      })
+    }
+
+    else{
+       res.json({
+        isAvailable:true
+       })
+    }
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+}

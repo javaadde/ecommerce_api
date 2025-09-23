@@ -4,9 +4,8 @@ const cartSchema = mongoose.Schema(
   {
     _id: String,
     items: Array,
-    subtotal: Number,
+    subtotal:{type:Number, default:0},
   },
-  { timestamps: true }
 );
 
 export const cart = mongoose.model("cart", cartSchema);

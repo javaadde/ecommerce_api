@@ -7,9 +7,11 @@ export async function findAllProducts() {
 }
 
 export async function findCategoryProducts(category) {
-  const allproducts = await products.find({ category: category });
+  const allproducts = await products.find({ category_id: category });
   return allproducts;
 }
+
+
 
 export async function addProduct(pro) {
   const findedCatId = await category.findOne({ _id: pro.category_id }) || null;
