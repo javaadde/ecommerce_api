@@ -1,9 +1,14 @@
 import { deleteOneCategory, insertOneCategoy } from "../services/category.js";
+import multer from "multer";
+import cloudinary from "../config/cloudiney.js";
 
 import {
   deleteOrder,
+  findAllOrdersCount,
   findManyOrders,
   findManyOrdersByDate,
+  findManyOrdersOfAnUser,
+  totalRevenew,
   updateOrder,
 } from "../services/order.js";
 
@@ -11,6 +16,8 @@ import {
   addProduct,
   deleteManyProductsByCategory,
   deleteProduct,
+  findAllProducts,
+  findAllProductsCount,
   updateProduct,
 } from "../services/products.js";
 
@@ -18,9 +25,18 @@ import {
   checkPassword,
   disableUser,
   enableUser,
+  findAllUsersCount,
   findManyUsers,
   findOneUser,
 } from "../services/users.js";
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+
+
+
+// ========================================================
+
 
 export async function singnInForAdmin(req, res) {
   try {
@@ -51,13 +67,16 @@ export async function singnInForAdmin(req, res) {
 
 export async function PorductAdding(req, res) {
   try {
+
     const product = req.body;
+    
     const inserted = await addProduct(product);
     res.json({
       message: inserted,
     });
+
   } catch (error) {
-    console.log(errr);
+    console.log(error);
   }
 }
 
@@ -76,6 +95,20 @@ export async function DeletingProduct(req, res) {
 export async function UpdatingProduct(req, res) {
   try {
     const pro = req.body;
+
+
+    for (const key in pro) {
+      
+       if(pro[key] === ""){
+         delete pro[key];
+       }
+      
+    }
+
+    console.log(pro);
+    
+
+
     const mess = await updateProduct(pro);
     res.json({
       message: mess,
@@ -195,8 +228,11 @@ export async function CreateCategory(req, res) {
 }
 
 export async function DeleteCategory(req, res) {
+
   try {
     const category_id = req.body.category_id;
+    console.log(category_id);
+    
 
     const deletedCat = await deleteOneCategory(category_id);
     const deletedPro = await deleteManyProductsByCategory(category_id);
@@ -219,4 +255,43 @@ export async function DeleteCategory(req, res) {
       });
     }
   } catch (error) {}
+}
+
+export async function isAdmin(req,res) {
+
+   try{
+
+        
+        const total_products = await findAllProductsCount() 
+        const total_orders = await findAllOrdersCount()
+        const registered_users = await findAllUsersCount()
+        const total_revenew = await totalRevenew();
+
+        
+        
+        res.json({
+            isAdmin:true,
+            total_revenew:total_revenew[0].sum,
+            registered_users:registered_users,
+            total_orders:total_orders,
+            total_products:total_products,
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+
+}
+
+export async function GetAllOrdersByUser(req,res) {
+  try {
+    
+    const id = req.params.id
+    const data = await findManyOrdersOfAnUser(id)
+     res.json(data)
+
+  } catch (error) {
+    console.log(error);
+    
+  }
 }

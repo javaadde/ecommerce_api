@@ -9,6 +9,8 @@ import {
   DeletingProduct,
   GetAllOrders,
   GetAllOrdersByDate,
+  GetAllOrdersByUser,
+  isAdmin,
   PorductAdding,
   singnInForAdmin,
   UpdateAnOrder,
@@ -16,6 +18,17 @@ import {
   UserDisableOrEnable,
 } from "../controllers/admin.js";
 import { checkIsAdminOrNot } from "../middlewares/session.js";
+
+// =================================================================
+// CLOUDINEY
+// 
+
+// // import cloudinary from "./config/cloudinary.js";
+// import multer from "multer";
+// const upload = multer({ storage: multer.memoryStorage() });
+
+
+
 
 // =======================================================================
 
@@ -32,6 +45,10 @@ adminRouter.post("/signin", singnInForAdmin);
 //  MIDDLEWARE
 adminRouter.use(checkIsAdminOrNot);
 
+
+// HOME
+adminRouter.get('/',isAdmin)
+
 // PRODUCTS CRUD
 // =================
 
@@ -39,7 +56,8 @@ adminRouter.post(
   "/products/add",
   valRulesForProducts,
   valResult,
-  PorductAdding
+   PorductAdding,
+
 ); // adding products
 adminRouter.delete("/products/delete/:id", DeletingProduct); // deleting products
 adminRouter.put("/products/update", UpdatingProduct); // updating products
@@ -55,9 +73,12 @@ adminRouter.put("/user/:active", UserDisableOrEnable); // user enable disable
 
 adminRouter.get("/orders", GetAllOrders); // all orders by default
 adminRouter.get("/orders/filter/date", GetAllOrdersByDate);
+adminRouter.get("/orders/user/:id",GetAllOrdersByUser)
 
 adminRouter.put("/order/update/:id", UpdateAnOrder);
 adminRouter.delete("/order/delete/:id", DeleteAnOrder);
+
+
 
 //  CATEGORY
 // ===================

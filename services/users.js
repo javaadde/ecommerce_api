@@ -46,6 +46,11 @@ export async function findManyUsers() {
   return manyUsers;
 }
 
+export async function findAllUsersCount() {
+  const manyUsers = await users.find().countDocuments({});
+  return manyUsers;
+}
+
 export async function findOneUser(user_id) {
   const user = await users.findOne({ _id: user_id });
   return user;

@@ -56,9 +56,6 @@ export async function addItemToCart(user_id, product_id) {
 }
 
 export async function increaseQuantityOfItem(user_id, product_id) {
-
-  
-
   const updated = await cart.updateOne(
     { _id: user_id, "items.product_id": product_id },
     { $inc: { "items.$.quantity": 1 } }
@@ -93,8 +90,8 @@ export async function clearCart(user_id) {
 }
 
 export async function updateTotal(user_id) {
-  const cart = await findOneCart(user_id);
-  const items = cart.items;
+  const cartResponse = await findOneCart(user_id);
+  const items = cartResponse.items;
 
   let total_amount = 0;
   for (const item of items) {
@@ -102,7 +99,12 @@ export async function updateTotal(user_id) {
   }
   console.log(total_amount);
 
-  const updt = await cart.updateOne({ _id: user_id }, { subtotal: 500 });
+  console.log(user_id)
+
+  const updt = await cart.updateOne(
+    { _id: user_id },
+    { $set: { subtotal: total_amount } }
+  );
   console.log(updt);
 }
 
@@ -112,5 +114,5 @@ export async function deleteProInCart(user_id, product_id) {
     { $pull: { items: { product_id: product_id } } }
   );
 
-  return updated
+  return updated;
 }

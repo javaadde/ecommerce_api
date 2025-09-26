@@ -1,5 +1,5 @@
 import { clearCart, findOneCart } from "../services/cart.js";
-import { findManyOrdersOfAnUser, storeUserData } from "../services/order.js";
+import { findManyOrdersOfAnUser, findOneOrder, storeUserData, updateOrder } from "../services/order.js";
 
 export async function PlacingAnOrder(req, res) {
   try {
@@ -45,4 +45,40 @@ export async function GetUserOrders(req, res) {
 
     res.json(data);
   } catch (error) {}
+}
+
+
+export async function OrderById(req,res) {
+ try {
+
+  const order_id = req.params.id
+
+   const data =  await findOneOrder(order_id)
+
+   console.log(data);
+   
+
+   res.json(data)
+  
+ } catch (error) {
+  
+ } 
+}
+
+export async function CancelOrder(req,res) {
+  try {
+    const order_id = req.params.id;
+     const updt = await updateOrder(order_id,"cancelled")
+
+     console.log(updt);
+     
+     res.json({
+      message:"updated sucessly",
+      updated:true
+
+     })
+     
+  } catch (error) {
+    
+  }
 }

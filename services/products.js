@@ -6,6 +6,11 @@ export async function findAllProducts() {
   return allproducts;
 }
 
+export async function findAllProductsCount() {
+  const allproducts = await products.find().countDocuments()
+  return allproducts;
+}
+
 export async function findCategoryProducts(category) {
   const allproducts = await products.find({ category_id: category });
   return allproducts;

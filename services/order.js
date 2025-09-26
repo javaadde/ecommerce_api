@@ -29,6 +29,11 @@ export async function findManyOrders() {
   return data;
 }
 
+export async function findAllOrdersCount() {
+  const data = await orders.find().countDocuments({});
+  return data;
+}
+
 export async function findManyOrdersOfAnUser(user_id) {
   const data = await orders.find({ user_id: user_id });
   return data;
@@ -37,4 +42,21 @@ export async function findManyOrdersOfAnUser(user_id) {
 export async function findManyOrdersByDate(date) {
   const data = await orders.find({ date: { $lte: date } });
   return data;
+}
+
+export async function findOneOrder(order_id){
+   const data = await orders.findOne({_id:order_id})
+   console.log("survice", data);
+   
+   return data
+}
+
+export async function totalRevenew() {
+    const total_revenew = await orders.aggregate([
+            {$group:{
+                _id:null, 
+                sum:{$sum:"$total"}
+            }},
+        ]);
+        return total_revenew;
 }
