@@ -1,4 +1,4 @@
-import { deleteOneCategory, insertOneCategoy } from "../services/category.js";
+import { deleteOneCategory, findOneCategory, insertOneCategoy } from "../services/category.js";
 import multer from "multer";
 import cloudinary from "../config/cloudiney.js";
 
@@ -216,6 +216,7 @@ export async function GetAllOrdersByDate(req, res) {
   } catch (error) {}
 }
 
+
 export async function CreateCategory(req, res) {
   try {
     const { name, discription,url } = req.body;
@@ -230,12 +231,20 @@ export async function CreateCategory(req, res) {
 export async function DeleteCategory(req, res) {
 
   try {
-    const category_id = req.body.category_id;
+    const category_id = req.params.name;
     console.log(category_id);
     
 
+    const category = await findOneCategory(category_id);
+    
     const deletedCat = await deleteOneCategory(category_id);
-    const deletedPro = await deleteManyProductsByCategory(category_id);
+
+    const category_name = category.name;
+    console.log(category, "name", category_name);
+    
+    const deletedPro = await deleteManyProductsByCategory(category_name);
+
+
 
     console.log(deletedCat, deletedPro);
 
@@ -271,7 +280,7 @@ export async function isAdmin(req,res) {
         
         res.json({
             isAdmin:true,
-            total_revenew:total_revenew[0].sum,
+            // total_revenew:total_revenew[0].sum,
             registered_users:registered_users,
             total_orders:total_orders,
             total_products:total_products,

@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const proSchema = mongoose.Schema(
   {
-    _id: String,
     name: String,
     price: Number,
     category_id: String,
+    discription:String,
     url: String,
   },
   { timestamps: true }

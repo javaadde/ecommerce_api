@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
 const cartSchema = mongoose.Schema({
-  _id:String,
+  name:String,
+  user_id:String,
   items: Array,
   subtotal: { type: Number, default: 0 },
 });

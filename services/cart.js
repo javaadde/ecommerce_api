@@ -1,10 +1,11 @@
+import mongoose from "mongoose";
 import { cart } from "../models/cart.js";
 import { products } from "../models/products.js";
 
-export async function createCart(user_id) {
+export async function createCart(id) {
   try {
     await cart.insertOne({
-      _id: user_id,
+      user_id: id,
     });
   } catch (error) {
     console.log(error);
@@ -13,8 +14,8 @@ export async function createCart(user_id) {
 
 export async function findOneCart(user_id) {
   try {
-    const cartData = await cart.findOne({ _id: user_id });
-
+    const cartData = await cart.findOne({ user_id: user_id });
+    
     return cartData;
   } catch (error) {
     console.log(error);
@@ -25,8 +26,9 @@ export async function addItemToCart(user_id, product_id) {
   try {
     const proDetails = await products.findOne({ _id: product_id });
 
+
     const updated = await cart.updateOne(
-      { _id: user_id },
+      { user_id: user_id },
       {
         $addToSet: {
           items: {
@@ -55,11 +57,14 @@ export async function addItemToCart(user_id, product_id) {
   }
 }
 
-export async function increaseQuantityOfItem(user_id, product_id) {
+export async function increaseQuantityOfItem(id, pro_id) {
+ 
   const updated = await cart.updateOne(
-    { _id: user_id, "items.product_id": product_id },
+    { user_id: id, "items.product_id": new mongoose.Types.ObjectId( pro_id )},
     { $inc: { "items.$.quantity": 1 } }
+    
   );
+
 
   if (updated.modifiedCount > 0) {
     return "incresed item quantity";
@@ -70,9 +75,9 @@ export async function increaseQuantityOfItem(user_id, product_id) {
 
 export async function decreaseQuantityOfItem(user_id, product_id) {
   const updated = await cart.updateOne(
-    { _id: user_id, "items.product_id": product_id },
+    { user_id: user_id, "items.product_id": new mongoose.Types.ObjectId (product_id) },
     { $inc: { "items.$.quantity": -1 } }
-  );
+  ); 
 
   if (updated.modifiedCount > 0) {
     return "decresed item quantity";
@@ -83,7 +88,7 @@ export async function decreaseQuantityOfItem(user_id, product_id) {
 
 export async function clearCart(user_id) {
   const updated = await cart.updateOne(
-    { _id: user_id },
+    { user_id: user_id },
     { $unset: { items: [] } }
   );
   return updated;
@@ -99,10 +104,10 @@ export async function updateTotal(user_id) {
   }
   console.log(total_amount);
 
-  console.log(user_id)
+  console.log(user_id);
 
   const updt = await cart.updateOne(
-    { _id: user_id },
+    { user_id: user_id },
     { $set: { subtotal: total_amount } }
   );
   console.log(updt);
@@ -110,8 +115,8 @@ export async function updateTotal(user_id) {
 
 export async function deleteProInCart(user_id, product_id) {
   const updated = await cart.updateOne(
-    { _id: user_id },
-    { $pull: { items: { product_id: product_id } } }
+    { user_id: user_id },
+    { $pull: { items: { product_id: new mongoose.Types.ObjectId( product_id )} } }
   );
 
   return updated;

@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 const categorySchema = mongoose.Schema(
   {
-    _id:String,
+    _id:{type: mongoose.Schema.Types.ObjectId ,new:true, auto:true },
+    name:String,
     discription: String,
     url:String,
   },

@@ -84,4 +84,4 @@ adminRouter.delete("/order/delete/:id", DeleteAnOrder);
 // ===================
 
 adminRouter.post("/category/add", CreateCategory);
-adminRouter.delete("/category/delete", DeleteCategory);
+adminRouter.delete("/category/delete/:name", DeleteCategory);

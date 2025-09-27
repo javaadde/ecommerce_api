@@ -19,7 +19,7 @@ export async function findCategoryProducts(category) {
 
 
 export async function addProduct(pro) {
-  const findedCatId = await category.findOne({ _id: pro.category_id }) || null;
+  const findedCatId = await category.findOne({ name: pro.category_id }) || null;
 
   if (findedCatId != null) {
     try {
@@ -32,7 +32,7 @@ export async function addProduct(pro) {
       console.log(err);
     }
   } else {
-    return "category id doesnt exist";
+    return "category is doesnt exist";
   }
 }
 

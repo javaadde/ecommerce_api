@@ -1,4 +1,5 @@
 // services
+import mongoose from "mongoose";
 
 import {
   addItemToCart,
@@ -53,9 +54,14 @@ export async function operationOnItems(req, res) {
 
       const user_cart = await findOneCart(user_id)
       const items = user_cart.items;
+      console.log(items);
+      
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
-         if(item.product_id === product_id && item.quantity >= 5){
+        let pro_id = item.product_id.toString();
+        
+
+         if( pro_id === product_id && item.quantity >= 5){
           return res.json({
             message:'you cant buy more than 5 items',
             problem:true,
@@ -73,9 +79,13 @@ export async function operationOnItems(req, res) {
 
       const user_cart = await findOneCart(user_id)
       const items = user_cart.items;
+
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
-         if(item.product_id === product_id && item.quantity <= 1){
+
+        let pro_id = item.product_id.toString();
+
+         if(pro_id === product_id && item.quantity <= 1){
           return res.json({
             message:'you cant do that',
             problem:true,
