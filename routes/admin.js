@@ -23,9 +23,9 @@ import { checkIsAdminOrNot } from "../middlewares/session.js";
 // CLOUDINEY
 // 
 
-// // import cloudinary from "./config/cloudinary.js";
-// import multer from "multer";
-// const upload = multer({ storage: multer.memoryStorage() });
+import cloudinary from "../config/cloudiney.js";
+import multer from "multer";
+const upload = multer({ storage: multer.memoryStorage() });
 
 
 
@@ -54,13 +54,13 @@ adminRouter.get('/',isAdmin)
 
 adminRouter.post(
   "/products/add",
-  valRulesForProducts,
-  valResult,
-   PorductAdding,
-
+  // valRulesForProducts,
+  // valResult,
+  upload.single('image'),
+  PorductAdding
 ); // adding products
 adminRouter.delete("/products/delete/:id", DeletingProduct); // deleting products
-adminRouter.put("/products/update", UpdatingProduct); // updating products
+adminRouter.put("/products/update",upload.single('image') ,UpdatingProduct ); // updating products
 
 //  GET ALL USERS
 // =================

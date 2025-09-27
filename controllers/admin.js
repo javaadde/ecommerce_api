@@ -30,7 +30,6 @@ import {
   findOneUser,
 } from "../services/users.js";
 
-const upload = multer({ storage: multer.memoryStorage() });
 
 
 
@@ -66,9 +65,26 @@ export async function singnInForAdmin(req, res) {
 }
 
 export async function PorductAdding(req, res) {
+
+  console.log('came in');
+  
+
   try {
 
-    const product = req.body;
+     let product = req.body;
+
+    console.log(product);
+    
+      const result = await cloudinary.uploader.upload(
+                `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
+                { folder: 'my_uploads' } 
+      );
+      product.url = result.secure_url;
+ 
+
+      console.log(product);
+      
+     
     
     const inserted = await addProduct(product);
     res.json({
@@ -104,19 +120,30 @@ export async function UpdatingProduct(req, res) {
        }
       
     }
-
-    console.log(pro);
     
-
+    if(req.file){
+      
+       const result = await cloudinary.uploader.upload(
+                `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
+                { folder: 'my_uploads' } 
+      );
+      pro.url = result.secure_url;
+      
+    }
+    
+    console.log(pro);
 
     const mess = await updateProduct(pro);
     res.json({
       message: mess,
     });
+
+
   } catch (error) {
     console.log(error);
   }
 }
+
 
 export async function AllUsersForAdmin(req, res) {
   try {
@@ -128,6 +155,7 @@ export async function AllUsersForAdmin(req, res) {
     console.log(error);
   }
 }
+
 
 export async function UpdateAnOrder(req, res) {
   const order_id = req.params.id;
@@ -141,6 +169,8 @@ export async function UpdateAnOrder(req, res) {
     console.log(err);
   }
 }
+
+
 
 export async function DeleteAnOrder(req, res) {
   const order_id = req.params.id;
@@ -157,6 +187,8 @@ export async function DeleteAnOrder(req, res) {
     console.log(err);
   }
 }
+
+
 
 export async function GetAllOrders(req, res) {
   try {
@@ -236,7 +268,7 @@ export async function DeleteCategory(req, res) {
     
 
     const category = await findOneCategory(category_id);
-    
+
     const deletedCat = await deleteOneCategory(category_id);
 
     const category_name = category.name;
