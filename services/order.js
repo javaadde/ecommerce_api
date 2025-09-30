@@ -60,3 +60,8 @@ export async function totalRevenew() {
         ]);
         return total_revenew;
 }
+
+export async function findOrdersByStatus(status) {
+   const data = await orders.find({status:status});
+   return data;
+}

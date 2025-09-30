@@ -74,3 +74,15 @@ export async function deleteManyProductsByCategory(category_id) {
   const dlt = await products.deleteMany({ category_id: category_id });
   return dlt;
 }
+
+
+export async function findPublicId(id) {
+   const data = await products.findOne({_id:id})
+   return data.public_id;
+}
+
+
+export async function searchWithQuery(query) {
+  const data = await products.find({ name: { $regex: query, $options: "i" } });
+  return data;
+}

@@ -18,11 +18,13 @@ export async function insertDoc(form) {
 
     return {
       message: "signup compleated succesfully",
+      signed:true
     };
   } catch (err) {
     if (err.code === 11000) {
       return {
         message: "username is allready exists",
+        signed:false
       };
     }
     console.log(err);

@@ -11,16 +11,13 @@ export async function signUp(req, res) {
     req.session.data = {
       username: data.username,
       email: data.email,
-      role: data.role,
+      role: "user",
     };
 
     // creating a cart for the user
     await createCart(data.username);
 
-    res.json({
-      message:message,
-      signedUp:true
-    });
+    res.json(message);
 
     // res.redirect('/home')
   } catch (err) {

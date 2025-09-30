@@ -1,5 +1,5 @@
 import express from "express";
-import { productByCategory, productsHome } from "../controllers/products.js"; // ControllerS
+import { productByCategory, productsHome, searchProducts } from "../controllers/products.js"; // ControllerS
 
 // ==============================================================
 
@@ -16,3 +16,6 @@ productsRouter.get("/", productsHome);
 
 // get by category
 productsRouter.get("/:category", productByCategory);
+
+// get all by search query
+productsRouter.get("/", searchProducts);

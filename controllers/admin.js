@@ -8,6 +8,7 @@ import {
   findManyOrders,
   findManyOrdersByDate,
   findManyOrdersOfAnUser,
+  findOrdersByStatus,
   totalRevenew,
   updateOrder,
 } from "../services/order.js";
@@ -18,6 +19,7 @@ import {
   deleteProduct,
   findAllProducts,
   findAllProductsCount,
+  findPublicId,
   updateProduct,
 } from "../services/products.js";
 
@@ -80,6 +82,7 @@ export async function PorductAdding(req, res) {
                 { folder: 'my_uploads' } 
       );
       product.url = result.secure_url;
+      product.public_id = result.public_id;
  
 
       console.log(product);
@@ -120,13 +123,19 @@ export async function UpdatingProduct(req, res) {
        }
       
     }
+
+    const public_id = await findPublicId(pro._id)
     
     if(req.file){
       
        const result = await cloudinary.uploader.upload(
-                `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
-                { folder: 'my_uploads' } 
-      );
+  `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
+  {
+    public_id: public_id, // same id as before
+    overwrite: true,              // force overwrite
+    invalidate: true              // invalidate cached versions
+  }
+);
       pro.url = result.secure_url;
       
     }
@@ -335,4 +344,19 @@ export async function GetAllOrdersByUser(req,res) {
     console.log(error);
     
   }
+}
+
+
+export async function GetAllOrderByStatus(req,res) {
+   const status = req.params.status;
+   try {
+    
+
+     const data = await findOrdersByStatus(status);
+
+      res.json(data)
+
+   } catch (error) {
+    console.log(error);
+   }
 }

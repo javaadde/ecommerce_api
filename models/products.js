@@ -7,6 +7,7 @@ const proSchema = mongoose.Schema(
     category_id: String,
     discription:String,
     url: String,
+    public_id:String,
   },
   { timestamps: true }
 );

@@ -7,6 +7,7 @@ import {
   DeleteAnOrder,
   DeleteCategory,
   DeletingProduct,
+  GetAllOrderByStatus,
   GetAllOrders,
   GetAllOrdersByDate,
   GetAllOrdersByUser,
@@ -74,6 +75,7 @@ adminRouter.put("/user/:active", UserDisableOrEnable); // user enable disable
 adminRouter.get("/orders", GetAllOrders); // all orders by default
 adminRouter.get("/orders/filter/date", GetAllOrdersByDate);
 adminRouter.get("/orders/user/:id",GetAllOrdersByUser)
+adminRouter.get("/orders/:status",GetAllOrderByStatus)
 
 adminRouter.put("/order/update/:id", UpdateAnOrder);
 adminRouter.delete("/order/delete/:id", DeleteAnOrder);
