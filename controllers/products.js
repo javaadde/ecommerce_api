@@ -20,8 +20,11 @@ export async function productByCategory(req, res) {
 }
 
 export async function searchProducts(req,res) {
+  console.log(req.method);
+
+
+  
   try {
-    
     const searchQuery = req.query.name;
 
     const data = await searchWithQuery(searchQuery);

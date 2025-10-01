@@ -18,4 +18,4 @@ productsRouter.get("/", productsHome);
 productsRouter.get("/:category", productByCategory);
 
 // get all by search query
-productsRouter.get("/", searchProducts);
+productsRouter.post("/search", searchProducts);
