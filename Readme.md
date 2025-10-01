@@ -1,7 +1,10 @@
 
-<p align="center">
-    ## ** 🛍️ E-Commerce API**
- </p>
+<div align="center">
+
+<h1 style="font-size:45px; font-weight:800;">🛍️ E-Commerce API </h1>
+ 
+ </div>
+
 <div align="center">
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
