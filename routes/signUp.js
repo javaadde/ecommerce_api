@@ -6,7 +6,6 @@ import { valResult, valRulesForSingUp } from "../middlewares/validation.js"; // 
 import { signUp, userExistsOrNot } from "../controllers/signup.js"; // Controller
 
 // ==================================================
-
 export const signUpRouter = express.Router();
 
 // json url endcode
