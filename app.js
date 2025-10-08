@@ -6,8 +6,8 @@ import session from "express-session"; // session
 import cors from "cors"
 
 // routers
-import { signUpRouter } from "./routes/signUp.js";
-import { signInRouter } from "./routes/signIn.js";
+import { signUpRouter } from "./routes/signup.js";
+import { signInRouter } from "./routes/signin.js";
 import { productsRouter } from "./routes/products.js";
 import { adminRouter } from "./routes/admin.js";
 import { cartRouter } from "./routes/cart.js";
