@@ -1,6 +1,6 @@
 import express from "express";
 import { valResult, valRulesForSignIn } from "../middlewares/validation.js"; // login handling
-import { signInForUser } from "../controllers/signIn.js"; // Controller
+import { signInForUser } from "../controllers/signin.js"; // Controller
 import session from "express-session"; // session data
 import MongoStore from "connect-mongo";
 
