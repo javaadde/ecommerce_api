@@ -7,8 +7,9 @@ import { signUp, userExistsOrNot } from "../controllers/signup.js"; // Controlle
 
 // ==================================================
 export const signUpRouter = express.Router();
-
 dotenv.config();
+
+console.log("Attempting to connect with MONGO_URL:", process.env.MONGO_URL);
 
 // json url endcode
 signUpRouter.use(express.json());
@@ -19,10 +20,18 @@ signUpRouter.use(
     secret: "your_secret_key",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL }),
+    store: MongoStore.create(
+      { mongoUrl: process.env.MONGO_URL },
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        ssl: true,
+        tls: true,
+      }
+    ),
   })
 );
 
 // route for inserting doc
 signUpRouter.post("/", valRulesForSingUp, valResult, signUp);
-signUpRouter.post("/existsUser",userExistsOrNot )
+signUpRouter.post("/existsUser", userExistsOrNot);

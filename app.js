@@ -3,7 +3,7 @@ import { dbConnect } from "./db/db.js";
 import MongoStore from "connect-mongo"; // mongo-connect
 import dotenv from "dotenv"; // env configure
 import session from "express-session"; // session
-import cors from "cors"
+import cors from "cors";
 
 // routers
 import { signUpRouter } from "./routes/signup.js";
@@ -22,28 +22,36 @@ const MONGO_URL = process.env.MONGO_URL;
 
 const app = express();
 
-app.use(cors({
-   origin: "http://localhost:5173", // frontend
-   credentials: true
-}))
-
-
-
 app.use(
-  session({
-  secret: "mysecret",
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: false,   // must be false on localhost (no https)
-    sameSite: "lax" // try "lax" first, then "none" if cross-site
-  },
-   store: MongoStore.create({mongoUrl:MONGO_URL})
+  cors({
+    origin: "http://localhost:5173", // frontend
+    credentials: true,
   })
 );
 
-app.get('/', IsLogined)
+app.use(
+  session({
+    secret: "mysecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, // must be false on localhost (no https)
+      sameSite: "lax", // try "lax" first, then "none" if cross-site
+    },
+    store: MongoStore.create(
+      { mongoUrl: MONGO_URL },
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        ssl: true,
+        tls: true,
+      }
+    ),
+  })
+);
+
+app.get("/", IsLogined);
 
 app.use("/category", categoryRouter);
 app.use("/details", detailsRouter);
@@ -60,7 +68,6 @@ app.use((req, res) => {
     message: "page not fount",
   });
 });
-
 
 dbConnect(); //  connect to database
 
