@@ -18,7 +18,7 @@ import { IsLogined } from "./controllers/app.js";
 
 dotenv.config();
 const PORT = process.env.PORT;
-const dbURI = process.env.dbURI;
+const MONGO_URL = process.env.MONGO_URL;
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.use(
     secure: false,   // must be false on localhost (no https)
     sameSite: "lax" // try "lax" first, then "none" if cross-site
   },
-   store: MongoStore.create({mongoUrl:dbURI})
+   store: MongoStore.create({mongoUrl:MONGO_URL})
   })
 );
 

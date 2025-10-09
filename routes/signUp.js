@@ -8,19 +8,19 @@ import { signUp, userExistsOrNot } from "../controllers/signup.js"; // Controlle
 // ==================================================
 export const signUpRouter = express.Router();
 
+dotenv.config();
+const MONGO_URL = process.env.MONGO_URL;
+
 // json url endcode
 signUpRouter.use(express.json());
 signUpRouter.use(express.urlencoded({ extended: true }));
-
-dotenv.config();
-const dbURI = process.env.dbURI;
 
 signUpRouter.use(
   session({
     secret: "your_secret_key",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: dbURI }),
+    store: MongoStore.create({ mongoUrl: MONGO_URL }),
   })
 );
 

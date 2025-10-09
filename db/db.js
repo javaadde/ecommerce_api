@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 // dotenv
 import dotenv from "dotenv";
 dotenv.config();
-const dbURI = process.env.dbURI;
+const dbURI = process.env.MONGO_URL;
 
 // connnecting
 export async function dbConnect() {

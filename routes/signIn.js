@@ -3,9 +3,11 @@ import { valResult, valRulesForSignIn } from "../middlewares/validation.js"; // 
 import { signInForUser } from "../controllers/signin.js"; // Controller
 import session from "express-session"; // session data
 import MongoStore from "connect-mongo";
+import dotenv from 'dotenv'
 
 // ==============================================================
 export const signInRouter = express.Router();
+dotenv.config();
 
 signInRouter.use(
   session({
@@ -17,7 +19,7 @@ signInRouter.use(
     secure: false,   
     sameSite: "lax" 
   },
-    store: MongoStore.create({ mongoUrl: "mongodb://localhost:27017/MyUsers" }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL }),
   })
 );
 
