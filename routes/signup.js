@@ -9,7 +9,6 @@ import { signUp, userExistsOrNot } from "../controllers/signup.js"; // Controlle
 export const signUpRouter = express.Router();
 
 dotenv.config();
-const MONGO_URL = process.env.MONGO_URL;
 
 // json url endcode
 signUpRouter.use(express.json());
@@ -20,7 +19,7 @@ signUpRouter.use(
     secret: "your_secret_key",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: MONGO_URL }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL }),
   })
 );
 
