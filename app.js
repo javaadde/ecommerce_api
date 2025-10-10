@@ -23,7 +23,10 @@ const MONGO_URL = process.env.MONGO_URL;
 const app = express();
 
 app.use(
-  cors()
+   cors({
+    origin: "https://ecommerce-frontend-react-flame.vercel.app", // frontend
+    credentials: true,
+  })
 );
 
 app.use(
