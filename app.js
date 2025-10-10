@@ -24,7 +24,7 @@ const app = express();
 
 app.use(
    cors({
-    origin: "https://javad-react.vercel.app/", // frontend
+    origin: "https://javad-react.vercel.app", // frontend
     credentials: true,
   })
 );
