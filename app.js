@@ -21,7 +21,6 @@ const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 
 const app = express();
-const cors = require("cors");
 
 const allowedOrigins = [
   "https://ecommerce-frontend-react-flame.vercel.app",
