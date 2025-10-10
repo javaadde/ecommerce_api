@@ -21,13 +21,27 @@ const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 
 const app = express();
+const cors = require("cors");
+
+const allowedOrigins = [
+  "https://ecommerce-frontend-react-flame.vercel.app",
+  "https://ecommerce-frontend-react-tau.vercel.app",
+  "https://javad-react.vercel.app"
+];
 
 app.use(
-   cors({
-    origin: "https://ecommerce-frontend-react-tau.vercel.app", // frontend
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 
 app.use(
   session({
