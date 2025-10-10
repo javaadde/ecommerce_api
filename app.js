@@ -47,10 +47,11 @@ app.use(
     secret: "mysecret",
     resave: false,
     saveUninitialized: false,
-    cookie: {
+   cookie: {
       httpOnly: true,
-      secure: false, // must be false on localhost (no https)
-      sameSite: "lax", // try "lax" first, then "none" if cross-site
+      secure: true,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
     },
     store: MongoStore.create(
       { mongoUrl: MONGO_URL },
