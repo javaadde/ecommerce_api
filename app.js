@@ -24,7 +24,7 @@ const app = express();
 
 app.use(
    cors({
-    origin: " https://ecommerce-frontend-react-flame.vercel.app", // frontend
+    origin: "https://ecommerce-frontend-react-tau.vercel.app", // frontend
     credentials: true,
   })
 );
